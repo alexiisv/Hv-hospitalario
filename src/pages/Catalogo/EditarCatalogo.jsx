@@ -262,9 +262,21 @@ export default function EditarCatalogo() {
             </div>
 
             <div>
+              <label className={labelClass}>
+                Accesorios
+              </label>
+
+              <textarea
+                {...register("accesorios")}
+                rows={4}
+                className={inputClass}
+              />
+            </div>
+
+            {/* <div>
               <label className={labelClass}>Frecuencia mantenimiento</label>
               <input {...register("frecuencia_mantenimiento")} className={inputClass} />
-            </div>
+            </div> */}
 
             <div className="md:col-span-3">
               <label className={labelClass}>Descripción</label>

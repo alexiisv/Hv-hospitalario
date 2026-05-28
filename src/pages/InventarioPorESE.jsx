@@ -80,6 +80,26 @@ export default function InventarioPorESE() {
         >
           Registrar equipo
         </Link>
+        <Link
+          to={`/eses/${ese.id}/inventario/importar`}
+          className="inline-flex items-center justify-center rounded-xl border border-blue-200 bg-blue-50 px-4 py-2.5 text-blue-700 font-medium hover:bg-blue-100 transition"
+        >
+          Importar Excel
+        </Link>
+        <a
+          href={`http://localhost:3001/pdf/ese/${ese.id}/todos`}
+          className="inline-flex items-center justify-center rounded-xl bg-green-600 px-4 py-2.5 text-white font-medium hover:bg-green-700 transition"
+        >
+          Generar todos los PDFs
+        </a>
+
+        <a
+          href={`http://localhost:3001/pdf/ese/${ese.id}/preventivos`}
+          className="inline-flex items-center justify-center rounded-xl bg-purple-600 px-4 py-2.5 text-white font-medium hover:bg-purple-700 transition"
+        >
+          Solo hojas preventivas
+        </a>
+
       </div>
 
       <div className="bg-white rounded-2xl shadow-sm border overflow-hidden">
@@ -101,6 +121,8 @@ export default function InventarioPorESE() {
                   <th className="px-4 py-3 font-semibold">Ubicación</th>
                   <th className="px-4 py-3 font-semibold">Código</th>
                   <th className="px-4 py-3 font-semibold">Estado</th>
+                  <th className="px-4 py-3 text-left">PDF</th>
+                
                 </tr>
               </thead>
 
@@ -130,6 +152,17 @@ export default function InventarioPorESE() {
                         {item.estado_equipo || "Sin estado"}
                       </span>
                     </td>
+                    <td className="px-4 py-3">
+                        <a
+                          href={`http://localhost:3001/pdf/equipo/${item.id}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center justify-center rounded-lg bg-red-100 px-3 py-2 text-red-600 hover:bg-red-200 transition"
+                          title="Generar PDF"
+                        >
+                          📄
+                        </a>
+                      </td>
                   </tr>
                 ))}
               </tbody>

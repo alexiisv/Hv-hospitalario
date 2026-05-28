@@ -8,7 +8,7 @@ export const obtenerCatalogo = async () => {
 };
 
 export const obtenerCatalogoCompleto = async (id) => {
-  const res = await axios.get(`${API}/catalogo-completo/${id}`);
+  const res = await axios.get(`${API}/catalogo/completo/${id}`);
   return res.data;
 };
 

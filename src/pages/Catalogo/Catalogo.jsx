@@ -53,6 +53,7 @@ export default function Catalogo() {
         >
           + Nuevo equipo
         </Link>
+       
       </div>
 
       <div className="bg-white rounded-2xl shadow border overflow-hidden">
@@ -92,7 +93,13 @@ export default function Catalogo() {
                   >
                     Editar
                   </Link>
-
+                  
+                  <Link
+                    to={`/catalogo/gestion/${item.id}`}
+                    className="rounded-lg bg-green-100 px-3 py-2 text-sm text-green-700 hover:bg-green-200"
+                  >
+                    Actividades
+                  </Link>
                   <button
                     onClick={() => eliminar(item.id)}
                     className="text-red-600"

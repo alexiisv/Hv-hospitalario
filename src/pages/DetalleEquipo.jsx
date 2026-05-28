@@ -1,11 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef} from "react";
 import { useParams } from "react-router-dom";
 import { obtenerInventarioPorId } from "../services/inventarioService";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 export default function DetalleEquipo() {
   const { id } = useParams();
   const [data, setData] = useState(null);
   const [cargando, setCargando] = useState(true);
+  const hoja1Ref = useRef(null);
+  const hoja2Ref = useRef(null);
+  const hoja3Ref = useRef(null);
 
   useEffect(() => {
     cargarDetalle();
@@ -72,11 +77,14 @@ export default function DetalleEquipo() {
     </div>
   );
 
-  const PageWrapper = ({ children }) => (
-    <div className="mx-auto w-full max-w-[950px] bg-white border border-slate-300 shadow-sm p-6 print:shadow-none print:border-none print:p-4">
-      {children}
-    </div>
-  );
+ const PageWrapper = ({ children, innerRef }) => (
+  <div
+    ref={innerRef}
+    className="mx-auto w-[794px] min-h-[1123px] bg-white border border-slate-300 shadow-sm p-6 print:shadow-none print:border-none"
+  >
+    {children}
+  </div>
+);
 
   // const HeaderDocumento = ({ titulo }) => (
   //   <div className="border border-slate-400 mb-4">
@@ -161,10 +169,49 @@ export default function DetalleEquipo() {
   </div>
 );
 
+const generarPDF = async () => {
+  const pdf = new jsPDF("p", "mm", "a4");
+
+  const hojas = [hoja1Ref.current, hoja2Ref.current, hoja3Ref.current];
+
+  for (let i = 0; i < hojas.length; i++) {
+    const hoja = hojas[i];
+
+    const canvas = await html2canvas(hoja, {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: "#ffffff",
+    });
+
+    const imgData = canvas.toDataURL("image/png");
+
+    const pdfWidth = 210;
+    const pdfHeight = 297;
+
+    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+
+    if (i < hojas.length - 1) {
+      pdf.addPage();
+    }
+  }
+
+  pdf.save(`Hoja_vida_${equipo.codigo_inventario || equipo.id}.pdf`);
+};
+
+
   return (
+    
     <div className="space-y-8 pb-10">
+          <div className="flex justify-end">
+      {/* <button
+        onClick={generarPDF}
+        className="rounded-xl bg-blue-600 px-5 py-2.5 text-white font-medium hover:bg-blue-700 transition"
+      >
+        Generar PDF
+      </button> */}
+    </div>
       {/* ============================= HOJA 1 ============================= */}
-      <PageWrapper>
+      <PageWrapper innerRef={hoja1Ref}>
         <HeaderDocumento titulo="Hoja de Vida Equipo Biomédico" />
 
         <section className="mb-4">
@@ -296,11 +343,20 @@ export default function DetalleEquipo() {
               ))}
             </div>
           </div>
+     <div className="border border-slate-400 mt-4">
+  <div className="bg-slate-100 border-b border-slate-400 px-3 py-2 text-center text-xs font-bold uppercase text-slate-700">
+    Accesorios
+  </div>
+
+  <div className="min-h-[90px] p-3 text-sm text-slate-700 whitespace-pre-line">
+    {equipo.accesorios || "NA"}
+  </div>
+</div>
         </section>
       </PageWrapper>
 
       {/* ============================= HOJA 2 ============================= */}
-      <PageWrapper>
+      <PageWrapper innerRef={hoja2Ref}>
         <HeaderDocumento titulo="Hoja de Vida Equipo Biomédico" />
 
         <section>
@@ -319,14 +375,10 @@ export default function DetalleEquipo() {
                 <Box label="Frecuencia mantenim" value={equipo.frecuencia_mantenimiento} />
                 <Box label="Serie" value={equipo.serie} />
                 <div className="border border-slate-300">
-                  <div className="bg-slate-100 px-2 py-1 text-[10px] font-semibold text-slate-700 text-center uppercase border-b border-slate-300">
+                  {/* <div className="bg-slate-100 px-2 py-1 text-[10px] font-semibold text-slate-700 text-center uppercase border-b border-slate-300">
                     Revisión
-                  </div>
-                  <div className="grid grid-cols-3 text-center text-[11px]">
-                    <div className="py-1 border-r border-slate-300">1</div>
-                    <div className="py-1 border-r border-slate-300">2</div>
-                    <div className="py-1">3</div>
-                  </div>
+                  </div> */}
+                  
                 </div>
               </div>
 
@@ -442,7 +494,7 @@ export default function DetalleEquipo() {
       </PageWrapper>
 
       {/* ============================= HOJA 3 ============================= */}
-      <PageWrapper>
+      <PageWrapper innerRef={hoja3Ref}>
         <HeaderDocumento titulo="Hoja de Vida Equipo Biomédico" />
 
         <section>

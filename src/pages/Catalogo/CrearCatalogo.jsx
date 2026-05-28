@@ -249,9 +249,25 @@ export default function CrearCatalogo() {
             </div>
 
             <div>
+              <label className={labelClass}>
+                Accesorios
+              </label>
+
+              <textarea
+                {...register("accesorios")}
+                rows={4}
+                className={inputClass}
+                placeholder="Ej:
+            - Brazalete adulto
+            - Cable de poder
+            - Sensor SpO2"
+              />
+            </div>
+
+            {/* <div>
               <label className={labelClass}>Frecuencia mantenimiento</label>
               <input {...register("frecuencia_mantenimiento")} className={inputClass} placeholder="Ej: 4 MESES" />
-            </div>
+            </div> */}
 
             <div className="md:col-span-3">
               <label className={labelClass}>Descripción</label>

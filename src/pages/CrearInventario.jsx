@@ -263,7 +263,7 @@ export default function CrearInventario() {
                 <div className="rounded-xl bg-slate-50 p-3"><strong>Clasificación biomédica:</strong> {detalleCatalogo.catalogo.clasificacion_biomedica}</div>
                 <div className="rounded-xl bg-slate-50 p-3"><strong>Tecnología:</strong> {detalleCatalogo.catalogo.tecnologia_predominante}</div>
                 <div className="rounded-xl bg-slate-50 p-3"><strong>Tipo equipo:</strong> {detalleCatalogo.catalogo.tipo_equipo}</div>
-                <div className="rounded-xl bg-slate-50 p-3"><strong>Frecuencia mantenimiento:</strong> {detalleCatalogo.catalogo.frecuencia_mantenimiento}</div>
+                {/* <div className="rounded-xl bg-slate-50 p-3"><strong>Frecuencia mantenimiento:</strong> {detalleCatalogo.catalogo.frecuencia_mantenimiento}</div> */}
               </div>
             </div>
 
@@ -376,7 +376,7 @@ export default function CrearInventario() {
                 <input {...register("codigo_inventario")} placeholder="Código inventario" className={inputClass} />
               </div>
 
-                <div>
+                {/* <div>
                 <label className={labelClass}>Imagen del equipo</label>
                 <input
                   type="file"
@@ -403,12 +403,20 @@ export default function CrearInventario() {
                     }
                   }}
                 />
-              </div>
+              </div> */}
               
               <div>
                 <label className={labelClass}>Estado del equipo</label>
                 <input {...register("estado_equipo")} placeholder="Estado del equipo" className={inputClass} />
               </div>
+              <div>
+              <label className={labelClass}>Frecuencia mantenimiento</label>
+              <input
+                {...register("frecuencia_mantenimiento")}
+                className={inputClass}
+                placeholder="Ej: 4 MESES / 6 MESES / ANUAL"
+              />
+            </div>
 
               <div className="md:col-span-2">
                 <label className={labelClass}>Observaciones</label>

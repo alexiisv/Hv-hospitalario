@@ -13,6 +13,12 @@ import EditarCatalogo from "./pages/Catalogo/EditarCatalogo";
 import CrearESE from "./pages/CentrosdeSalud/CrearESE";
 import EditarESE from "./pages/CentrosdeSalud/EditarESE";
 
+import ImportarInventario from "./pages/Importacion/ImportarInventario";
+import GestionCatalogo from "./pages/GestionCatalogo";
+
+import Plantillas from "./pages/Plantillas";
+import GestionPlantilla from "./pages/GestionPlantilla";
+
 
 function Layout() {
   const location = useLocation();
@@ -47,6 +53,9 @@ function Layout() {
             <Link to="/eses" className={navLinkClass("/eses")}>
               ESES
             </Link>
+              <Link to="/plantillas" className={navLinkClass("/plantillas")}>
+              Plantillas
+            </Link>
 
             {/* <Link to="/inventario" className={navLinkClass("/inventario")}>
               Inventario
@@ -75,10 +84,17 @@ function Layout() {
           <Route path="/eses/nueva" element={<CrearESE />} />
           <Route path="/eses/editar/:id" element={<EditarESE />} />
 
+          <Route path="/eses/:eseId/inventario/importar" element={<ImportarInventario />} />
           {/* <Route path="/inventario" element={<Inventario />} />
           <Route path="/inventario/nuevo" element={<CrearInventario />} /> */}
-        
+          <Route path="/catalogo/gestion/:id" element={<GestionCatalogo />}
+/>
+           <Route path="/plantillas" element={<Plantillas />} />
+           <Route path="/plantillas/:id" element={<GestionPlantilla />} />
+
+
         </Routes>
+      
       </main>
     </div>
   );
