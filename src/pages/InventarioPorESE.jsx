@@ -1,6 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { obtenerEsePorId, obtenerInventarioPorEse } from "../services/eseService";
+import {
+  FaFileImport,
+  FaPlus,
+  FaFilePdf,
+  FaFileArchive,
+  FaLayerGroup
+} from "react-icons/fa";
 
 export default function InventarioPorESE() {
   const { id } = useParams();
@@ -74,12 +81,13 @@ export default function InventarioPorESE() {
           </div>
         </div>
 
-        <Link
+        {/* <Link
           to={`/eses/${ese.id}/inventario/nuevo`}
           className="inline-flex items-center justify-center rounded-xl bg-blue-600 px-4 py-2.5 text-white font-medium hover:bg-blue-700 transition"
         >
           Registrar equipo
         </Link>
+                
         <Link
           to={`/eses/${ese.id}/inventario/importar`}
           className="inline-flex items-center justify-center rounded-xl border border-blue-200 bg-blue-50 px-4 py-2.5 text-blue-700 font-medium hover:bg-blue-100 transition"
@@ -99,6 +107,57 @@ export default function InventarioPorESE() {
         >
           Solo hojas preventivas
         </a>
+
+        <a
+          href={`http://localhost:3001/pdf/ese/${ese.id}/todos-unificado`}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex items-center justify-center rounded-xl bg-slate-800 px-4 py-2.5 text-white font-medium hover:bg-slate-900 transition"
+        >
+          HV en un solo PDF
+        </a> */}
+
+    <div className="flex flex-wrap items-center gap-2">
+        <Link
+          to={`/eses/${ese.id}/inventario/nuevo`}
+          className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-white"
+        >
+          <FaPlus />
+          Registrar
+        </Link>
+
+        <Link
+          to={`/eses/${ese.id}/inventario/importar`}
+          className="inline-flex items-center gap-2 rounded-xl bg-green-600 px-4 py-2 text-white"
+        >
+          <FaFileImport />
+          Importar
+        </Link>
+
+        {/* <a
+          href={`http://localhost:3001/pdf/ese/${ese.id}/todos`}
+          className="inline-flex items-center gap-2 rounded-xl bg-green-600 px-4 py-2 text-white"
+        >
+          <FaFileArchive />
+          PDFs
+        </a> */}
+
+        <a
+          href={`http://localhost:3001/pdf/ese/${ese.id}/preventivos`}
+          className="inline-flex items-center gap-2 rounded-xl bg-purple-600 px-4 py-2 text-white"
+        >
+          <FaFilePdf />
+          Preventivos
+        </a>
+
+        <a
+          href={`http://localhost:3001/pdf/ese/${ese.id}/todos-unificado`}
+          className="inline-flex items-center gap-2 rounded-xl bg-slate-800 px-4 py-2 text-white"
+        >
+          <FaLayerGroup />
+          Unificado
+        </a>
+</div>
 
       </div>
 

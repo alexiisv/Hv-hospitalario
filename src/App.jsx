@@ -19,6 +19,14 @@ import GestionCatalogo from "./pages/GestionCatalogo";
 import Plantillas from "./pages/Plantillas";
 import GestionPlantilla from "./pages/GestionPlantilla";
 
+import {
+  FaHome,
+  FaDatabase,
+  FaHospital,
+  FaFileAlt,
+  FaHeartbeat,
+} from "react-icons/fa";
+
 
 function Layout() {
   const location = useLocation();
@@ -32,7 +40,7 @@ function Layout() {
 
   return (
     <div className="min-h-screen bg-slate-100">
-      <header className="bg-white border-b shadow-sm">
+      {/* <header className="bg-white border-b shadow-sm">
         <div className="max-w-7xl mx-auto px-6 py-4 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
             <h1 className="text-2xl font-bold text-slate-800">
@@ -57,16 +65,70 @@ function Layout() {
               Plantillas
             </Link>
 
-            {/* <Link to="/inventario" className={navLinkClass("/inventario")}>
+            <Link to="/inventario" className={navLinkClass("/inventario")}>
               Inventario
             </Link>
             <Link to="/inventario/nuevo" className={navLinkClass("/inventario/nuevo")}>
               Nuevo equipo
-            </Link> */}
+            </Link>
            
           </nav>
         </div>
-      </header>
+      </header> */}
+
+      <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/90 backdrop-blur-xl shadow-sm">
+  <div className="mx-auto flex max-w-7xl flex-col gap-4 px-6 py-4 lg:flex-row lg:items-center lg:justify-between">
+    
+    <Link to="/" className="flex items-center gap-3">
+      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-cyan-500 text-white shadow-md">
+        <FaHeartbeat className="text-xl" />
+      </div>
+
+      <div>
+        <h1 className="text-xl font-bold leading-tight text-slate-800">
+          Sistema Biomédico
+        </h1>
+        <p className="text-xs text-slate-500">
+          Hojas de vida · Inventario · Documentación
+        </p>
+      </div>
+    </Link>
+
+    <nav className="flex w-full flex-wrap items-center gap-2 rounded-2xl bg-slate-100 p-1 lg:w-auto">
+      <Link
+        to="/"
+        className={`${navLinkClass("/")} flex items-center gap-2`}
+      >
+        <FaHome />
+        Inicio
+      </Link>
+
+      <Link
+        to="/catalogo"
+        className={`${navLinkClass("/catalogo")} flex items-center gap-2`}
+      >
+        <FaDatabase />
+        Base de Datos
+      </Link>
+
+      <Link
+        to="/eses"
+        className={`${navLinkClass("/eses")} flex items-center gap-2`}
+      >
+        <FaHospital />
+        ESEs
+      </Link>
+
+      <Link
+        to="/plantillas"
+        className={`${navLinkClass("/plantillas")} flex items-center gap-2`}
+      >
+        <FaFileAlt />
+        Plantillas
+      </Link>
+    </nav>
+  </div>
+</header>
 
       <main className="max-w-7xl mx-auto px-6 py-6">
         <Routes>
