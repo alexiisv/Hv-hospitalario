@@ -16,3 +16,8 @@ export const crearEquipo = async (equipo) => {
   const res = await axios.post(`${API}/equipos`, equipo);
   return res.data;
 };
+
+export const vaciarEse = async (id) => {
+  const res = await axios.delete(`/eses/${id}/vaciar`);
+  return res.data;
+};
