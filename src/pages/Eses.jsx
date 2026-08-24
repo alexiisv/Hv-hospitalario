@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { obtenerEses, eliminarEse } from "../services/eseService";
+import { obtenerEses, eliminarEse, vaciarEse } from "../services/eseService";
 import {
   FaHospital,
   FaMapMarkerAlt,
@@ -11,6 +11,11 @@ import {
   FaTrash,
   FaPlus,
 } from "react-icons/fa";
+
+import {
+  Trash2,
+  XCircle,
+} from "lucide-react";
 
 export default function ESEs() {
   const [eses, setEses] = useState([]);
@@ -31,18 +36,118 @@ export default function ESEs() {
     }
   };
 
-  const eliminar = async (id) => {
-    const confirmar = confirm("¿Seguro que deseas eliminar esta ESE?");
+  // const eliminar = async (id) => {
+  //   const confirmar = confirm("¿Seguro que deseas eliminar esta ESE?");
+  //   if (!confirmar) return;
+
+  //   try {
+  //     await eliminarEse(id);
+  //     cargarEses();
+  //   } catch (error) {
+  //     console.error("Error al eliminar ESE:", error);
+  //     alert("No se pudo eliminar la ESE. Puede tener equipos asociados.");
+  //   }
+  // };
+  const eliminar = async (ese) => {
+    const confirmar = confirm(
+      `¿Deseas eliminar la ESE "${ese.nombre}"?\n\n` +
+      `Solo podrá eliminarse si no contiene equipos.`
+    );
+
     if (!confirmar) return;
 
     try {
-      await eliminarEse(id);
+      await eliminarEse(ese.id);
+
+      alert("ESE eliminada correctamente.");
+
       cargarEses();
+
     } catch (error) {
       console.error("Error al eliminar ESE:", error);
-      alert("No se pudo eliminar la ESE. Puede tener equipos asociados.");
+
+      if (error.response?.status === 409) {
+        alert(
+          `${error.response.data.mensaje}\n\n` +
+          `Puedes utilizar la opción "Vaciar ESE" primero.`
+        );
+
+        return;
+      }
+
+      alert("No fue posible eliminar la ESE.");
     }
   };
+
+  // const vaciar = async (ese) => {
+  //   const confirmar1 = confirm(
+  //     `ADVERTENCIA\n\n` +
+  //     `Vas a eliminar TODO el inventario de:\n\n` +
+  //     `${ese.nombre}\n\n` +
+  //     `La ESE permanecerá creada.\n\n` +
+  //     `¿Deseas continuar?`
+  //   );
+
+  //   if (!confirmar1) return;
+
+  //   const confirmar2 = confirm(
+  //     `Esta acción eliminará todos los equipos registrados en ${ese.nombre}.\n\n` +
+  //     `Esta acción no se puede deshacer.\n\n` +
+  //     `¿Confirmas nuevamente?`
+  //   );
+
+  //   if (!confirmar2) return;
+
+  //   try {
+  //     const resultado = await vaciarEse(ese.id);
+
+  //     alert(
+  //       `Inventario eliminado correctamente.\n\n` +
+  //       `Equipos eliminados: ${resultado.equiposEliminados}`
+  //     );
+
+  //     cargarEses();
+
+  //   } catch (error) {
+  //     console.error("Error al vaciar ESE:", error);
+
+  //     alert(
+  //       error.response?.data?.detalle ||
+  //       "No fue posible vaciar la ESE."
+  //     );
+  //   }
+  // };
+  const vaciar = async (ese) => {
+  const confirmar = confirm(
+    `¿Seguro que deseas eliminar TODO el inventario de "${ese.nombre}"?\n\n` +
+    `La ESE permanecerá creada.`
+  );
+
+  if (!confirmar) return;
+
+  try {
+    const resultado = await vaciarEse(ese.id);
+
+    console.log("RESPUESTA VACIAR ESE:", resultado);
+
+    alert(
+      `Inventario eliminado correctamente.\n\n` +
+      `Equipos eliminados: ${resultado?.equiposEliminados ?? 0}`
+    );
+
+    cargarEses();
+
+  } catch (error) {
+    console.error("Error al vaciar ESE:", error);
+    console.error("Respuesta backend:", error.response?.data);
+
+    alert(
+      error.response?.data?.detalle ||
+      error.response?.data?.error ||
+      "No fue posible vaciar la ESE."
+    );
+  }
+};
 
   if (cargando) {
     return (
@@ -74,14 +179,14 @@ export default function ESEs() {
               genera hojas de vida técnicas por cada equipo registrado.
             </p>
           </div>
-{/* 
+
           <Link
             to="/eses/nueva"
             className="inline-flex items-center justify-center gap-2 rounded-2xl bg-white px-5 py-3 font-semibold text-blue-700 shadow hover:bg-blue-50 transition"
           >
             <FaPlus />
             Nueva ESE
-          </Link> */}
+          </Link>
         </div>
       </div>
 
@@ -174,12 +279,28 @@ export default function ESEs() {
                   <FaEdit />
                 </Link>
 
-                <button
+                {/* <button
                   onClick={() => eliminar(ese.id)}
                   className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-red-200 text-red-600 transition hover:bg-red-50"
                   title="Eliminar ESE"
                 >
                   <FaTrash />
+                </button> */}
+
+                <button
+                  onClick={() => vaciar(ese)}
+                  title="Vaciar inventario"
+                  className="p-2 text-orange-600 hover:bg-orange-50 rounded-lg"
+                >
+                  <Trash2 size={18} />
+                </button>
+
+                <button
+                  onClick={() => eliminar(ese)}
+                  title="Eliminar ESE"
+                  className="p-2 text-red-600 hover:bg-red-50 rounded-lg"
+                >
+                  <XCircle size={18} />
                 </button>
               </div>
             </div>

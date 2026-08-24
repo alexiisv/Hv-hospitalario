@@ -24,6 +24,15 @@ export const actualizarPlantilla = async (id, data) => {
   return res.data;
 };
 
+// export const actualizarPlantilla = async (id, datos) => {
+//   const response = await axios.put(
+//     `${API_URL}/plantillas/${id}`,
+//     datos
+//   );
+
+//   return response.data;
+// };
+
 export const eliminarPlantilla = async (id) => {
   await axios.delete(`${API}/plantillas/${id}`);
 };
@@ -72,3 +81,4 @@ export const aplicarPlantillaACatalogo = async (
   );
   return res.data;
 };
+

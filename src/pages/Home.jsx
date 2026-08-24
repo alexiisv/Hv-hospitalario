@@ -24,12 +24,15 @@ import { Link } from "react-router-dom";
 export default function Home() {
   return (
     <div className="space-y-6 animate-fadeIn">
-      <div className="relative overflow-hidden rounded-3xl border bg-gradient-to-br from-blue-600 via-blue-700 to-slate-900 p-8 text-white shadow-lg">
+      <div className="relative overflow-hidden rounded-3xl border bg-gradient-to-br from-slate-900 via-blue-900 to-blue-700 p-8 text-white shadow-lg">
+              {/* <div className="relative overflow-hidden rounded-3xl border bg-gradient-to-br from-slate-900 via-blue-900 to-blue-700 p-8 text-white shadow-lg"> */}
+
         <div className="absolute -right-16 -top-16 h-48 w-48 rounded-full bg-white/10 blur-2xl"></div>
         <div className="absolute -bottom-20 right-20 h-56 w-56 rounded-full bg-blue-300/20 blur-3xl"></div>
 
         <div className="relative z-10 grid gap-8 md:grid-cols-2 md:items-center">
-          <div>
+          
+          <div >
             <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-sm font-medium backdrop-blur">
               <FaHospital />
               Sistema de gestión biomédica
@@ -106,9 +109,9 @@ export default function Home() {
       <div className="grid gap-5 md:grid-cols-3">
         <div className="rounded-2xl border bg-white p-6 shadow-sm hover:-translate-y-1 hover:shadow-md transition">
           <Link
-                to="/eses"              >
-          <FaHospital className="mb-4 text-3xl text-blue-600" />  
-              </Link>
+            to="/eses"              >
+            <FaHospital className="mb-4 text-3xl text-blue-600" />
+          </Link>
           <h3 className="mb-2 font-bold text-slate-800">ESE</h3>
           <p className="text-sm text-slate-500">
             Crea y administra instituciones con sus datos, logos e inventario.
@@ -117,9 +120,9 @@ export default function Home() {
 
         <div className="rounded-2xl border bg-white p-6 shadow-sm hover:-translate-y-1 hover:shadow-md transition">
           <Link
-                to="/catalogo"              >
-          <FaClipboardList className="mb-4 text-3xl text-purple-600" />
-              </Link>
+            to="/catalogo"              >
+            <FaClipboardList className="mb-4 text-3xl text-purple-600" />
+          </Link>
           <h3 className="mb-2 font-bold text-slate-800">Catalogo</h3>
           <p className="text-sm text-slate-500">
             Registra equipos biomédicos Marca Modelo y caracteristicas generales.
@@ -127,10 +130,10 @@ export default function Home() {
         </div>
 
         <div className="rounded-2xl border bg-white p-6 shadow-sm hover:-translate-y-1 hover:shadow-md transition">
-           <Link
-                to="/plantillas"              >
-          <FaListOl className="mb-4 text-3xl text-green-600" />
-              </Link>
+          <Link
+            to="/plantillas"              >
+            <FaListOl className="mb-4 text-3xl text-green-600" />
+          </Link>
           <h3 className="mb-2 font-bold text-slate-800">Plantillas</h3>
           <p className="text-sm text-slate-500">
             Genera Plantillas de actividades grupales para los equipos.

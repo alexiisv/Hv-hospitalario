@@ -5,6 +5,8 @@ import {
   validarImportacionExcel,
 } from "../../services/importacionService";
 
+import { crearCatalogo } from "../../services/catalogoService";
+
 export default function ImportarInventario() {
   const { eseId } = useParams();
   const navigate = useNavigate();
@@ -14,6 +16,80 @@ export default function ImportarInventario() {
   const [resultados, setResultados] = useState([]);
   const [validando, setValidando] = useState(false);
   const [guardando, setGuardando] = useState(false);
+
+  const [modalAbierto, setModalAbierto] = useState(false);
+  const [filaSeleccionada, setFilaSeleccionada] = useState(null);
+
+  const [nuevoCatalogo, setNuevoCatalogo] = useState({
+    equipo: "",
+    marca: "",
+    modelo: "",
+    descripcion: "",
+    uso: "",
+    riesgo: "",
+    clasificacion_biomedica: "",
+    tecnologia_predominante: "",
+    tipo_equipo: "",
+  });
+
+  const abrirModalCatalogo = (item) => {
+  setFilaSeleccionada(item);
+
+  setNuevoCatalogo({
+    equipo: item.equipo_excel || "",
+    marca: item.marca_excel || "",
+    modelo: item.modelo_excel || "",
+    descripcion: "",
+    uso: "",
+    riesgo: "",
+    clasificacion_biomedica: "",
+    tecnologia_predominante: "",
+    tipo_equipo: "",
+  });
+
+  setModalAbierto(true);
+};
+
+
+const guardarNuevoCatalogo = async () => {
+  if (!nuevoCatalogo.equipo || !nuevoCatalogo.marca || !nuevoCatalogo.modelo) {
+    alert("Equipo, marca y modelo son obligatorios");
+    return;
+  }
+
+  try {
+    const creado = await crearCatalogo(nuevoCatalogo);
+
+    setResultados((prev) =>
+      prev.map((item) =>
+        item.fila === filaSeleccionada.fila
+          ? {
+              ...item,
+              estado: "exacto",
+              mensaje: "Creado en catálogo desde importación",
+              catalogo_id: creado.id,
+              catalogo_id_seleccionado: creado.id,
+              aprobado: true,
+              sugerencia: {
+                id: creado.id,
+                equipo: creado.equipo,
+                marca: creado.marca,
+                modelo: creado.modelo,
+              },
+            }
+          : item
+      )
+    );
+
+    setModalAbierto(false);
+    setFilaSeleccionada(null);
+
+    alert("Equipo creado en catálogo y asignado a la fila");
+  } catch (error) {
+    console.error("Error creando catálogo:", error);
+    alert("No se pudo crear el equipo en catálogo");
+  }
+};
 
   const inputClass =
     "w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100";
@@ -274,6 +350,16 @@ console.log("ESE ID:", eseId);
                       ) : (
                         <span className="text-red-500">Sin sugerencia</span>
                       )}
+
+                      {item.estado === "no_encontrado" && (
+                      <button
+                        type="button"
+                        onClick={() => abrirModalCatalogo(item)}
+                        className="mt-2 rounded-lg bg-green-600 px-3 py-2 text-xs font-medium text-white hover:bg-green-700"
+                      >
+                        Crear en catálogo
+                      </button>
+                    )}
                     </td>
 
                     <td className="px-4 py-3 min-w-[260px]">
@@ -322,6 +408,63 @@ console.log("ESE ID:", eseId);
           </div>
         </div>
       )}
+
+      {modalAbierto && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+    <div className="w-full max-w-3xl rounded-2xl bg-white p-6 shadow-xl">
+      <h3 className="mb-4 text-xl font-bold text-slate-800">
+        Crear equipo en catálogo
+      </h3>
+
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <input
+          value={nuevoCatalogo.equipo}
+          onChange={(e) =>
+            setNuevoCatalogo({ ...nuevoCatalogo, equipo: e.target.value })
+          }
+          className={inputClass}
+          placeholder="Equipo"
+        />
+
+        <input
+          value={nuevoCatalogo.marca}
+          onChange={(e) =>
+            setNuevoCatalogo({ ...nuevoCatalogo, marca: e.target.value })
+          }
+          className={inputClass}
+          placeholder="Marca"
+        />
+
+        <input
+          value={nuevoCatalogo.modelo}
+          onChange={(e) =>
+            setNuevoCatalogo({ ...nuevoCatalogo, modelo: e.target.value })
+          }
+          className={inputClass}
+          placeholder="Modelo"
+        />
+      </div>
+
+      <div className="mt-6 flex justify-end gap-3">
+        <button
+          type="button"
+          onClick={() => setModalAbierto(false)}
+          className="rounded-xl border px-5 py-2.5 text-slate-700 hover:bg-slate-50"
+        >
+          Cancelar
+        </button>
+
+       <button
+  type="button"
+  onClick={guardarNuevoCatalogo}
+  className="rounded-xl bg-blue-600 px-5 py-2.5 text-white hover:bg-blue-700"
+>
+  Crear y asignar
+</button>
+      </div>
+    </div>
+  </div>
+)}
     </div>
   );
 }

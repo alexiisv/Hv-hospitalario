@@ -30,3 +30,9 @@ export const actualizarEse = async (id, data) => {
 export const eliminarEse = async (id) => {
   await axios.delete(`${API}/eses/${id}`);
 };
+
+// Vaciar todo el inventario de una ESE
+export const vaciarEse = async (id) => {
+  const response = await axios.delete(`${API}/eses/${id}/vaciar`);
+  return response.data;
+};
