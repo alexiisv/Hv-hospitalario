@@ -10,7 +10,7 @@ import {
 import Home from "./pages/Home";
 import CrearInventario from "./pages/CrearInventario";
 import DetalleEquipo from "./pages/DetalleEquipo";
-import ESEs from "./pages/ESEs";
+import Eses from "./pages/Eses";
 import InventarioPorESE from "./pages/InventarioPorESE";
 
 import Catalogo from "./pages/Catalogo/Catalogo";
@@ -67,7 +67,7 @@ function Layout() {
       icono: FaDatabase,
     },
     {
-      nombre: "ESEs",
+      nombre: "Eses",
       descripcion: "Instituciones e inventarios",
       ruta: "/eses",
       icono: FaHospital,
@@ -293,7 +293,7 @@ function Layout() {
               element={<ImportarCatalogo />}
             />
 
-            <Route path="/eses" element={<ESEs />} />
+            <Route path="/eses" element={<Eses />} />
             <Route
               path="/eses/:id/inventario"
               element={<InventarioPorESE />}
